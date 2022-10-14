@@ -3,12 +3,12 @@ import styles from './map.module.scss';
 
 interface IMapProps {
   value: any,
-  sendMessage: (message: string) => void,
 }
 
-const Map: React.FC<IMapProps> = ({ value, sendMessage }) => {
+const Map: React.FC<IMapProps> = ({ value }) => {
   const [cells, setCells] = useState<any>([]);
-  // const [style, setStyle] = useState({});
+  const [coordinates, setCoordinates] = useState<string>('');
+
 
   useEffect((): void => {
     showMap(value);
@@ -16,7 +16,7 @@ const Map: React.FC<IMapProps> = ({ value, sendMessage }) => {
 
   const onClickCell = (x: number, y: number) => {
     const text = `open ${x} ${y}`;
-    sendMessage(text);
+    setCoordinates(text);
   };
 
   const showMap = (map: string[]): void => {

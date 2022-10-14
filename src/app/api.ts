@@ -1,16 +1,13 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
 const url = 'wss://hometask.eg1236.com/game1/';
 
 export const api = createApi({
-  async baseQuery({ data }: { data: string }) {
-    console.log('data', data)
+  async baseQuery({ message }: { message: string }) {
+    console.log('message', message)
     return { data: {} };
   },
   endpoints: (build) => ({
-    // getMessage: build.mutation({ query(message: string) {
-    //   return { map: message }
-    // }}),
     channel: build.query<{ map: any[] }, string>({
       queryFn() {
         return { data: { map: [] } }
@@ -19,6 +16,7 @@ export const api = createApi({
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
+        console.log('arg', arg);
         const socket = new WebSocket(url);
         try {
           await cacheDataLoaded;
