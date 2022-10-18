@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ISelectProps } from '../../types';
+import styles from './select.module.scss';
 
 const SelectSmall: React.FC<ISelectProps> = ({
   selected,
@@ -16,7 +17,7 @@ const SelectSmall: React.FC<ISelectProps> = ({
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+    <FormControl size='small' className={styles.select_custom}>
       <InputLabel>Уровень:</InputLabel>
       <Select
         value={selected}

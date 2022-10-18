@@ -1,6 +1,8 @@
 import React from 'react';
 import Select from '../Select/Select';
 import Timer from "../Timer/Timer";
+import { ReactComponent as StartIcon } from '../../assets/icons/play.svg';
+import { ReactComponent as RestartIcon } from '../../assets/icons/repeat.svg';
 import { IHeaderProps } from '../../types';
 import styles from './header.module.scss';
 
@@ -19,7 +21,12 @@ const levelsList = [
   }
 ];
 
-const Header: React.FC<IHeaderProps> = ({ level, onChangeLevel }) => {
+const Header: React.FC<IHeaderProps> = ({
+  isStartGame,
+  onClickStartBtn,
+  level,
+  onChangeLevel
+}) => {
   const label = levelsList.find((item) => item.id === level);
 
   return (
@@ -30,7 +37,9 @@ const Header: React.FC<IHeaderProps> = ({ level, onChangeLevel }) => {
         levels={levelsList}
         onChange={onChangeLevel}
       />
-      <Timer />
+      {!isStartGame && <StartIcon className={styles.icon_start} onClick={onClickStartBtn} />}
+      {isStartGame && <RestartIcon className={styles.icon_start} onClick={onClickStartBtn} />}
+      <Timer isStartGame={isStartGame} />
     </div>
   );
 };

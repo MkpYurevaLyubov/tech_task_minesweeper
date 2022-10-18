@@ -3,7 +3,7 @@ import { useSendMessageMutation } from '../../app/api';
 import { IMapProps } from '../../types';
 import styles from './map.module.scss';
 
-const Map: React.FC<IMapProps> = ({ value }) => {
+const Map: React.FC<IMapProps> = ({ value, isStartGame }) => {
   const [cells, setCells] = useState<JSX.Element[]>([]);
   const [sendMessage] = useSendMessageMutation();
   const style = {
@@ -16,7 +16,11 @@ const Map: React.FC<IMapProps> = ({ value }) => {
     showMap(value);
   }, [value]);
 
+  console.log('isStartGame!!!!!!', isStartGame);
   const onClickCell = (x: number, y: number): void => {
+    console.log('!isStartGame111111', isStartGame);
+    console.log('!isStartGame222222', !isStartGame);
+    if (!isStartGame) return;
     sendMessage({ message: `open ${x} ${y}` });
   };
 

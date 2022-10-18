@@ -6,6 +6,7 @@ import styles from './app.module.scss';
 
 const App: React.FC = () => {
   const [level, setLevel] = useState<string>('1');
+  const [startGame, setStartGame] = useState<boolean>(false);
   const [sendMessage] = useSendMessageMutation();
   const { data } = useChannelQuery(`new ${level}`);
 
@@ -23,13 +24,23 @@ const App: React.FC = () => {
     setLevel(value);
   };
 
+  const handleClickStartBtn = (): void => {
+    setStartGame(prevState => !prevState);
+  };
+
+  console.log('startGame main', startGame);
   return (
     <div className={styles.main}>
       {!data?.map?.length && <h1>Устанавливается соединение...</h1>}
-      {data?.map?.length &&
+      {!!data?.map?.length &&
         <div className={styles.container}>
-          <Header level={level} onChangeLevel={handleChangeLevel} />
-          <Map value={data?.map} />
+          <Header
+            isStartGame={startGame}
+            onClickStartBtn={handleClickStartBtn}
+            level={level}
+            onChangeLevel={handleChangeLevel}
+          />
+          <Map value={data?.map} isStartGame={startGame} />
         </div>
       }
     </div>

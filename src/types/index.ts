@@ -4,6 +4,8 @@ export interface ILevel {
 }
 
 export interface IHeaderProps {
+  isStartGame: boolean,
+  onClickStartBtn: () => void,
   level: string,
   onChangeLevel: (value: string) => void,
 }
@@ -17,4 +19,9 @@ export interface ISelectProps {
 
 export interface IMapProps {
   value: Array<string[]>,
+  isStartGame: boolean,
+}
+
+export interface ITimerProps {
+  isStartGame: boolean,
 }

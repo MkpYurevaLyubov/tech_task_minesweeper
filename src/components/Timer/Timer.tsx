@@ -1,5 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import { TextField } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { ReactComponent as TimeIcon } from '../../assets/icons/clock.svg';
+import { ITimerProps } from "../../types";
+import styles from './timer.module.scss';
 
 const checkSizeTime = (time: number): string => {
   return time > 9 ? String(time) : `0${time}`;
@@ -13,20 +15,22 @@ const timeToHHMMSS = (second: number): string => {
   return `${checkSizeTime(hours)}:${checkSizeTime(minutes)}:${checkSizeTime(seconds)}`;
 }
 
-const Timer: React.FC = () => {
+const Timer: React.FC<ITimerProps> = ({ isStartGame }) => {
   const [time, setTime] = useState<number>(0);
 
   useEffect((): void => {
-    setInterval(() => {
-      setTime(prevState => prevState + 1);
-    }, 1000);
-  }, []);
+    if (isStartGame) {
+      setInterval(() => {
+        setTime(prevState => prevState + 1);
+      }, 1000);
+    }
+  }, [isStartGame]);
 
-  console.log(timeToHHMMSS(time))
   return (
-    <>
-      {timeToHHMMSS(time)}
-    </>
+    <div className={styles.timer_block}>
+      <TimeIcon className={styles.icon} />
+      <p>{timeToHHMMSS(time)}</p>
+    </div>
   );
 };
 
