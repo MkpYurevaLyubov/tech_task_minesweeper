@@ -30,8 +30,8 @@ const App: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      {!data?.map?.length && <h1>Устанавливается соединение...</h1>}
-      {!!data?.map?.length &&
+      {!data?.length && <h1>Устанавливается соединение...</h1>}
+      {!!data?.length &&
         <div className={styles.container}>
           <Header
             isStartGame={startGame}
@@ -39,7 +39,7 @@ const App: React.FC = () => {
             level={level}
             onChangeLevel={handleChangeLevel}
           />
-          <Map value={data?.map} isStartGame={startGame} />
+          <Map value={data[0]} isStartGame={startGame} />
         </div>
       }
     </div>
