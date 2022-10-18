@@ -5,7 +5,12 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ISelectProps } from '../../types';
 
-const SelectSmall: React.FC<ISelectProps> = ({ selected, label, levels, onChange }) => {
+const SelectSmall: React.FC<ISelectProps> = ({
+  selected,
+  label,
+  levels,
+  onChange
+}) => {
   const handleChangeSelect = (e: SelectChangeEvent) => {
     onChange(e.target.value);
   };

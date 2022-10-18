@@ -10,12 +10,13 @@ const Map: React.FC<IMapProps> = ({ value }) => {
     gridTemplateColumns: `repeat(${value[0]?.length}, 1fr)`,
     gridTemplateRows: `repeat(${value.length}, 1fr)`
   };
+  const cellSize = value.length > 20 ? styles.cell_3x : value.length > 10 ? styles.cell_2x : '';
 
   useEffect((): void => {
     showMap(value);
   }, [value]);
 
-  const onClickCell = (x: number, y: number) => {
+  const onClickCell = (x: number, y: number): void => {
     sendMessage({ message: `open ${x} ${y}` });
   };
 
@@ -53,7 +54,7 @@ const Map: React.FC<IMapProps> = ({ value }) => {
         {cells.map((cell: JSX.Element, idx: number) =>
           <div
             key={idx}
-            className={`${styles.cell} ${value.length > 10 ? styles.cell_2x : ''}`}
+            className={`${styles.cell} ${cellSize}`}
           >
             {cell}
           </div>

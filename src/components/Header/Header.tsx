@@ -1,6 +1,8 @@
 import React from 'react';
 import Select from '../Select/Select';
+import Timer from "../Timer/Timer";
 import { IHeaderProps } from '../../types';
+import styles from './header.module.scss';
 
 const levelsList = [
   {
@@ -21,14 +23,15 @@ const Header: React.FC<IHeaderProps> = ({ level, onChangeLevel }) => {
   const label = levelsList.find((item) => item.id === level);
 
   return (
-    <>
+    <div className={styles.header_block}>
       <Select
         selected={level}
         label={label?.label || ''}
         levels={levelsList}
         onChange={onChangeLevel}
       />
-    </>
+      <Timer />
+    </div>
   );
 };
 
