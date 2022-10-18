@@ -1,25 +1,25 @@
-import React, {ReactFragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { useSendMessageMutation } from '../../app/api';
+import { IMapProps } from '../../types';
 import styles from './map.module.scss';
 
-interface IMapProps {
-  value: any,
-}
-
 const Map: React.FC<IMapProps> = ({ value }) => {
-  const [cells, setCells] = useState<any>([]);
-  const [coordinates, setCoordinates] = useState<string>('');
-
+  const [cells, setCells] = useState<JSX.Element[]>([]);
+  const [sendMessage] = useSendMessageMutation();
+  const style = {
+    gridTemplateColumns: `repeat(${value[0]?.length}, 1fr)`,
+    gridTemplateRows: `repeat(${value.length}, 1fr)`
+  };
 
   useEffect((): void => {
     showMap(value);
   }, [value]);
 
   const onClickCell = (x: number, y: number) => {
-    const text = `open ${x} ${y}`;
-    setCoordinates(text);
+    sendMessage({ message: `open ${x} ${y}` });
   };
 
-  const showMap = (map: string[]): void => {
+  const showMap = (map: Array<string[]>): void => {
     const cellsArr = [];
     let color = 'cell_color_1';
 
@@ -38,7 +38,7 @@ const Map: React.FC<IMapProps> = ({ value }) => {
           </div>
         );
       }
-      color = color === "cell_color_1" ? "cell_color_2" : "cell_color_1";
+      color = color === 'cell_color_1' ? 'cell_color_2' : 'cell_color_1';
     }
 
     setCells(cellsArr);
@@ -46,9 +46,17 @@ const Map: React.FC<IMapProps> = ({ value }) => {
 
   return (
     <div className={styles.table}>
-      <div className={styles.table_grid}>
-        {cells.map((cell: ReactFragment, idx: number) =>
-          <div key={idx} className={styles.cell}>{cell}</div>
+      <div
+        className={styles.table_grid}
+        style={style}
+      >
+        {cells.map((cell: JSX.Element, idx: number) =>
+          <div
+            key={idx}
+            className={`${styles.cell} ${value.length > 10 ? styles.cell_2x : ''}`}
+          >
+            {cell}
+          </div>
         )}
       </div>
     </div>

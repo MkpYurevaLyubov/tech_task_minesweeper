@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from "../store";
+import { RootState } from '../store';
 
 interface SelectedCells {
   value: any[],
@@ -20,7 +20,6 @@ export const selectedCellsSlice = createSlice({
   },
 });
 
-export const { updateMap } = selectedCellsSlice.actions;
 export const selectCount = (state: RootState) => state.selectedCells.value;
 
 export default selectedCellsSlice.reducer;

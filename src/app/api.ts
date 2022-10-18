@@ -2,12 +2,19 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 
 const url = 'wss://hometask.eg1236.com/game1/';
 
+let socket: WebSocket;
+
 export const api = createApi({
   async baseQuery({ message }: { message: string }) {
-    console.log('message', message)
+    socket.send(message);
     return { data: {} };
   },
   endpoints: (build) => ({
+    sendMessage: build.mutation<unknown, { message: string }>({
+      query({ message }) {
+        return { message };
+      },
+    }),
     channel: build.query<{ map: any[] }, string>({
       queryFn() {
         return { data: { map: [] } }
@@ -16,8 +23,9 @@ export const api = createApi({
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
-        console.log('arg', arg);
-        const socket = new WebSocket(url);
+        if (!socket) {
+          socket = new WebSocket(url);
+        }
         try {
           await cacheDataLoaded;
           socket.onopen = () => {
@@ -28,29 +36,28 @@ export const api = createApi({
             const message = event.data;
             const key = message.split('').splice(0, 3).join('');
 
-            console.log('message', message);
             if (message === 'new: OK' || message === 'open: OK') {
               socket.send('map');
             }
 
-            if (key === "map") {
+            if (key === 'map') {
               let map: any = message.split('\n');
               map = map.slice(1, map.length - 1).map((el: string) => el.split(''));
 
               updateCachedData((currentCacheData) => {
-                currentCacheData.map.push([ ...map ]);
+                currentCacheData.map = map;
               });
             }
           }
 
         } catch {}
-        await cacheEntryRemoved
+        await cacheEntryRemoved;
         socket.onclose = () => {
-          console.log("Соединение закрыто")
+          console.log('Соединение закрыто');
         };
       },
     }),
   }),
 });
 
-export const { useChannelQuery } = api;
+export const { useChannelQuery, useSendMessageMutation } = api;

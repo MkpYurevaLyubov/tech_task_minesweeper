@@ -1,9 +1,9 @@
 import React from 'react';
-import { ApiProvider } from "@reduxjs/toolkit/query/react";
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { api } from '../src/app/api';
 import App from './App';
+import { api } from './app/api';
 import './index.css';
 
 const root = ReactDOM.createRoot(
