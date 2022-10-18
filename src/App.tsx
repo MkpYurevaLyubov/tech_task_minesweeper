@@ -28,7 +28,6 @@ const App: React.FC = () => {
     setStartGame(prevState => !prevState);
   };
 
-  console.log('startGame main', startGame);
   return (
     <div className={styles.main}>
       {!data?.map?.length && <h1>Устанавливается соединение...</h1>}

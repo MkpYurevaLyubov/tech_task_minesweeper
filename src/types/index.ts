@@ -22,6 +22,11 @@ export interface IMapProps {
   isStartGame: boolean,
 }
 
+export interface IShowMapProps {
+  value: Array<string[]>,
+  onClickCell: (x: number, y: number) => void,
+}
+
 export interface ITimerProps {
   isStartGame: boolean,
 }
