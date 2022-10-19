@@ -15,7 +15,7 @@
   }
 
   .color_1 {
-    background: #d1e5ef;
+    background: #b9d6ee;
   }
 
   .color_2 {
@@ -40,6 +40,13 @@
 }
 
 .cell_3x {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
+
+  .open_cell {
+    p {
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
 }

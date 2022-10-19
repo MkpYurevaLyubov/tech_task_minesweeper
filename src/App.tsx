@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import ModalWindow from './components/ModalWindow/ModalWindow';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { sendMessage, startConnecting } from './app/slices/mapSlice';
+import { emptySelectedArr } from "./app/slices/selectedCellsSlice";
 import { IInitialOpenModal } from './types';
 import styles from './app.module.scss';
 
@@ -24,7 +25,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect((): void => {
-    if (message === 'You lose') {
+    if (message === 'You lose' || message === 'You win.') {
       setOpenModal({ open: true, text: message });
       setStartGame(false);
     }
@@ -41,15 +42,14 @@ const App: React.FC = () => {
     setStartGame(prevState => !prevState);
   };
 
-  const handleCloseModal = (): void => {
+  const handleClickBtnInModal = (isRestart: boolean = false): void => {
     dispatch(sendMessage({ content: `new ${level}` }));
+    dispatch(emptySelectedArr());
     setOpenModal(initialOpenModal);
-  };
 
-  const handleRestartGame = (): void => {
-    dispatch(sendMessage({ content: `new ${level}` }));
-    setOpenModal(initialOpenModal);
-    setStartGame(true);
+    if (isRestart) {
+      setStartGame(true);
+    }
   };
 
   return (
@@ -69,11 +69,10 @@ const App: React.FC = () => {
       <ModalWindow
         open={open}
         title={text}
-        handleClose={handleCloseModal}
-        handleRestart={handleRestartGame}
+        onClickBtn={handleClickBtnInModal}
       />
     </div>
   );
-}
+};
 
 export default App;

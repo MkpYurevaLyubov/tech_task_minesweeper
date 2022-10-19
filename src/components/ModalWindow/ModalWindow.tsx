@@ -1,24 +1,17 @@
 import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { IModalWindowProps } from "../../types";
 import styles from './modalWindow.module.scss';
-
-interface IModalWindowProps {
-  open: boolean,
-  title: string,
-  handleClose: () => void,
-  handleRestart: () => void,
-}
 
 const ModalWindow: React.FC<IModalWindowProps> = ({
   open,
   title,
-  handleClose,
-  handleRestart,
+  onClickBtn,
 }) => {
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={onClickBtn}
       maxWidth='lg'
       className={styles.modal}
     >
@@ -26,8 +19,8 @@ const ModalWindow: React.FC<IModalWindowProps> = ({
         <h1>{title}</h1>
       </DialogContent>
       <DialogActions>
-        <Button variant='contained' onClick={handleRestart}>Начать заново</Button>
-        <Button variant='contained' onClick={handleClose}>Закрыть</Button>
+        <Button variant='contained' onClick={() => onClickBtn(true)}>Начать заново</Button>
+        <Button variant='contained' onClick={() => onClickBtn(false)}>Закрыть</Button>
       </DialogActions>
     </Dialog>
   );

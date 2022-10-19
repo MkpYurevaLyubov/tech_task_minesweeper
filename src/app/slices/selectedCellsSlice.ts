@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 interface SelectedCells {
@@ -21,10 +21,13 @@ export const selectedCellsSlice = createSlice({
       } else {
         state.selectedArr.push(action.payload.selected);
       }
-    }
+    },
+    emptySelectedArr: ((state) => {
+      state.selectedArr = [];
+    })
   },
 });
 
-export const { addFlag } = selectedCellsSlice.actions;
-export const selectCount = (state: RootState) => state.selectedCells;
+export const { addFlag, emptySelectedArr } = selectedCellsSlice.actions;
+export const selectedCells = (state: RootState) => state.selectedCells;
 export default selectedCellsSlice.reducer;

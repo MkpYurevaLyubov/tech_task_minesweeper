@@ -28,6 +28,12 @@ export interface IShowMapProps {
   onContextMenu: (event: any, x: number, y: number) => void,
 }
 
+export interface IModalWindowProps {
+  open: boolean,
+  title: string,
+  onClickBtn: (isRestart: boolean) => void,
+}
+
 export interface ITimerProps {
   isStartGame: boolean,
 }

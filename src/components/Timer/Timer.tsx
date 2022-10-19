@@ -4,17 +4,18 @@ import { useAppSelector } from '../../app/hooks';
 import { ITimerProps } from "../../types";
 import styles from './timer.module.scss';
 
-let interval: ReturnType<typeof setInterval> ;
+let interval: ReturnType<typeof setInterval>;
+const bestResult = JSON.parse(localStorage.getItem('bestResult') || '{}');
 const checkSizeTime = (time: number): string => {
   return time > 9 ? String(time) : `0${time}`;
 };
-const timeToHHMMSS = (second: number): string => {
+export const timeToHHMMSS = (second: number): string => {
   const hours = Math.floor(second / 3600);
   const minutes = Math.floor((second - (hours * 3600)) / 60);
   const seconds = second - (hours * 3600) - (minutes * 60);
 
   return `${checkSizeTime(hours)}:${checkSizeTime(minutes)}:${checkSizeTime(seconds)}`;
-}
+};
 
 const Timer: React.FC<ITimerProps> = ({ isStartGame }) => {
   const { message } = useAppSelector(state => state.map);
@@ -35,6 +36,12 @@ const Timer: React.FC<ITimerProps> = ({ isStartGame }) => {
   useEffect(() => {
     if (message === 'You lose') {
       setTime(0);
+    }
+
+    if (message === 'You win.') {
+      if (typeof bestResult === 'object' || (typeof bestResult !== 'object' && bestResult < time)) {
+        localStorage.setItem('bestResult', JSON.stringify(time));
+      }
     }
   }, [message]);
 
