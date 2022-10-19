@@ -24,6 +24,12 @@ const Timer: React.FC<ITimerProps> = ({ isStartGame }) => {
         setTime(prevState => prevState + 1);
       }, 1000);
     }
+
+    if (!isStartGame) {
+      console.log('asasasas')
+      clearInterval(time);
+      setTime(0);
+    }
   }, [isStartGame]);
 
   return (

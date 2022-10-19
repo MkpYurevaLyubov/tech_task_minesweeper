@@ -2,8 +2,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  top: 2%;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   width: 505px;
   background: #d1e5ee;
   border-radius: 10px;

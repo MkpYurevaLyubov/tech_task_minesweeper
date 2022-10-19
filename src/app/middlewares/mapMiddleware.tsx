@@ -10,6 +10,12 @@ const url = 'wss://hometask.eg1236.com/game1/';
 
 const mapMiddleware: Middleware = store => {
   let socket: WebSocket;
+  let level = 1;
+  const levelFromLocal = localStorage.getItem('level');
+
+  if (!!levelFromLocal) {
+    level = JSON.parse(levelFromLocal);
+  }
 
   return next => action => {
     const isConnectionEstablished = socket && store.getState().map.isConnected;
@@ -20,7 +26,7 @@ const mapMiddleware: Middleware = store => {
 
     socket.onopen = () => {
       store.dispatch(connectionEstablished());
-      socket.send(`new ${store.getState().map.level}`);
+      socket.send(`new ${level}`);
     };
 
     socket.onmessage = (event) => {

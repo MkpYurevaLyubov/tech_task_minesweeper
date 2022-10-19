@@ -4,7 +4,6 @@ import { RootState } from "../store";
 interface IMapState {
   map: Array<string[]>,
   message: string,
-  level: number,
   isConnected: boolean,
   isEstablishingConnection: boolean,
 }
@@ -12,7 +11,6 @@ interface IMapState {
 const initialState: IMapState = {
   map: [],
   message: '',
-  level: 1,
   isConnected: false,
   isEstablishingConnection: false,
 }
@@ -30,6 +28,10 @@ const mapSlice = createSlice({
     }),
     receiveMessage: ((state, action: PayloadAction<string>) => {
       const key = action.payload.split('').splice(0, 3).join('');
+
+      if (action.payload === 'open: You lose') {
+        state.message = action.payload.split(' ').splice(1, 3).join(' ');
+      }
 
       if (key === 'map') {
         let map: any = action.payload.split('\n');
