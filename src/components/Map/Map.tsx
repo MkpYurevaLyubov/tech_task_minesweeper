@@ -1,11 +1,12 @@
 import React from 'react';
 import ShowMap from "./ShowMap/ShowMap";
-import { useSendMessageMutation } from '../../app/api';
 import { IMapProps } from '../../types';
+import { useAppDispatch } from '../../app/hooks';
+import { sendMessage } from '../../app/slices/mapSlice';
 import styles from './map.module.scss';
 
 const Map: React.FC<IMapProps> = ({ value, isStartGame }) => {
-  const [sendMessage] = useSendMessageMutation();
+  const dispatch = useAppDispatch();
   const style = {
     gridTemplateColumns: `repeat(${value[0]?.length}, 1fr)`,
     gridTemplateRows: `repeat(${value.length}, 1fr)`
@@ -13,7 +14,7 @@ const Map: React.FC<IMapProps> = ({ value, isStartGame }) => {
 
   const handleClickCell = (x: number, y: number): void => {
     if (!isStartGame) return;
-    sendMessage({ message: `open ${x} ${y}` });
+    dispatch(sendMessage({ content: `open ${x} ${y}` }));
   };
 
   return (

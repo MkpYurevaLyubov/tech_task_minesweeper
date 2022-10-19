@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import Map from './components/Map/Map';
 import Header from './components/Header/Header';
-import { useChannelQuery, useSendMessageMutation } from './app/api';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { sendMessage, startConnecting } from './app/slices/mapSlice';
 import styles from './app.module.scss';
 
 const App: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { map } = useAppSelector(state => state.map);
   const [level, setLevel] = useState<string>('1');
   const [startGame, setStartGame] = useState<boolean>(false);
-  const [sendMessage] = useSendMessageMutation();
-  const { data } = useChannelQuery(`new ${level}`);
 
   useEffect((): void => {
     const levelItem = localStorage.getItem('level');
@@ -16,10 +17,12 @@ const App: React.FC = () => {
     if (!!levelItem) {
       setLevel(JSON.parse(levelItem))
     }
+
+    dispatch(startConnecting());
   }, []);
 
   const handleChangeLevel = (value: string): void => {
-    sendMessage({ message: `new ${value}` });
+    dispatch(sendMessage({ content: `new ${value}` }));
     localStorage.setItem('level', JSON.stringify(value));
     setLevel(value);
   };
@@ -30,8 +33,8 @@ const App: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      {!data?.length && <h1>Устанавливается соединение...</h1>}
-      {!!data?.length &&
+      {!map?.length && <h1>Устанавливается соединение...</h1>}
+      {!!map?.length &&
         <div className={styles.container}>
           <Header
             isStartGame={startGame}
@@ -39,7 +42,7 @@ const App: React.FC = () => {
             level={level}
             onChangeLevel={handleChangeLevel}
           />
-          <Map value={data[0]} isStartGame={startGame} />
+          <Map value={map} isStartGame={startGame} />
         </div>
       }
     </div>
