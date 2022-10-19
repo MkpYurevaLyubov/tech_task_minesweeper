@@ -1,8 +1,20 @@
 import React from 'react';
+import { ReactComponent as MoonIcon } from "../../../assets/icons/moon.svg";
+import { useAppSelector } from '../../../app/hooks';
 import { IShowMapProps } from '../../../types';
 import styles from './showMap.module.scss';
 
-const ShowMap: React.FC<IShowMapProps> = ({ value, onClickCell }) => {
+const getText = (value: string, x: number, y: number, selectedArr: string[]): JSX.Element => {
+  if (selectedArr.includes(`${x} ${y}`)) {
+    return <MoonIcon />
+  }
+
+  const text = value === '□' ? '' : value;
+  return <p>{text}</p>
+};
+
+const ShowMap: React.FC<IShowMapProps> = ({ value, onClickCell, onContextMenu }) => {
+  const { selectedArr } = useAppSelector(state => state.selectedCells);
   const cellsArr = [];
   const cellSize = value.length > 20 ? styles.cell_3x : value.length > 10 ? styles.cell_2x : '';
   let color = 'color_1';
@@ -14,11 +26,10 @@ const ShowMap: React.FC<IShowMapProps> = ({ value, onClickCell }) => {
       cellsArr.push(
         <div
           onClick={() => onClickCell(j, i)}
+          onContextMenu={(e) => onContextMenu(e, j, i)}
           className={openCell ? styles[openCell] : styles[color]}
         >
-          <p>
-            {value[i][j] === '□' ? '' : value[i][j]}
-          </p>
+          {getText(value[i][j], j, i, selectedArr)}
         </div>
       );
     }

@@ -3,23 +3,28 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 interface SelectedCells {
-  value: any[],
+  selectedArr: string[],
 }
 
 const initialState: SelectedCells = {
-  value: [],
+  selectedArr: [],
 };
 
 export const selectedCellsSlice = createSlice({
   name: 'selectedCells',
   initialState,
   reducers: {
-    updateMap: (state, action: PayloadAction<any[]>) => {
-      state.value = action.payload;
+    addFlag: (state, action: PayloadAction<{ selected: string }>) => {
+      const selected = action.payload.selected;
+      if (state.selectedArr.includes(selected)) {
+        state.selectedArr = state.selectedArr.filter((el: string) => el !== selected);
+      } else {
+        state.selectedArr.push(action.payload.selected);
+      }
     }
   },
 });
 
-export const selectCount = (state: RootState) => state.selectedCells.value;
-
+export const { addFlag } = selectedCellsSlice.actions;
+export const selectCount = (state: RootState) => state.selectedCells;
 export default selectedCellsSlice.reducer;

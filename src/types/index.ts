@@ -25,6 +25,7 @@ export interface IMapProps {
 export interface IShowMapProps {
   value: Array<string[]>,
   onClickCell: (x: number, y: number) => void,
+  onContextMenu: (event: any, x: number, y: number) => void,
 }
 
 export interface ITimerProps {
