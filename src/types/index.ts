@@ -30,3 +30,8 @@ export interface IShowMapProps {
 export interface ITimerProps {
   isStartGame: boolean,
 }
+
+export interface IInitialOpenModal {
+  open: boolean,
+  text: string,
+}

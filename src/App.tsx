@@ -4,12 +4,10 @@ import Header from './components/Header/Header';
 import ModalWindow from './components/ModalWindow/ModalWindow';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { sendMessage, startConnecting } from './app/slices/mapSlice';
+import { IInitialOpenModal } from './types';
 import styles from './app.module.scss';
 
-const initialOpenModal = {
-  open: false,
-  text: '',
-};
+const initialOpenModal: IInitialOpenModal = { open: false, text: '' };
 const levelItem = JSON.parse(localStorage.getItem('level') || '{}');
 const levelFromLocal = typeof levelItem !== 'object' ? levelItem : '1';
 
@@ -18,16 +16,17 @@ const App: React.FC = () => {
   const { map, message } = useAppSelector(state => state.map);
   const [level, setLevel] = useState<string>(levelFromLocal);
   const [startGame, setStartGame] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState(initialOpenModal);
+  const [openModal, setOpenModal] = useState<IInitialOpenModal>(initialOpenModal);
   const { open, text } = openModal;
 
   useEffect((): void => {
     dispatch(startConnecting());
   }, []);
 
-  useEffect(() => {
-    if (message) {
+  useEffect((): void => {
+    if (message === 'You lose') {
       setOpenModal({ open: true, text: message });
+      setStartGame(false);
     }
   }, [message]);
 
@@ -40,6 +39,17 @@ const App: React.FC = () => {
 
   const handleClickStartBtn = (): void => {
     setStartGame(prevState => !prevState);
+  };
+
+  const handleCloseModal = (): void => {
+    dispatch(sendMessage({ content: `new ${level}` }));
+    setOpenModal(initialOpenModal);
+  };
+
+  const handleRestartGame = (): void => {
+    dispatch(sendMessage({ content: `new ${level}` }));
+    setOpenModal(initialOpenModal);
+    setStartGame(true);
   };
 
   return (
@@ -59,8 +69,8 @@ const App: React.FC = () => {
       <ModalWindow
         open={open}
         title={text}
-        handleClose={() => setOpenModal(initialOpenModal)}
-        handleRestart={console.log}
+        handleClose={handleCloseModal}
+        handleRestart={handleRestartGame}
       />
     </div>
   );

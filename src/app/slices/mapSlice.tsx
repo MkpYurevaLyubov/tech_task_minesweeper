@@ -37,6 +37,7 @@ const mapSlice = createSlice({
         let map: any = action.payload.split('\n');
         map = map.slice(1, map.length - 1).map((el: string) => el.split(''));
         state.map = map;
+        state.message = '';
       }
 
     }),

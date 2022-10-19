@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ReactComponent as TimeIcon } from '../../assets/icons/clock.svg';
+import { useAppSelector } from '../../app/hooks';
 import { ITimerProps } from "../../types";
 import styles from './timer.module.scss';
 
+let interval: ReturnType<typeof setInterval> ;
 const checkSizeTime = (time: number): string => {
   return time > 9 ? String(time) : `0${time}`;
 };
-
 const timeToHHMMSS = (second: number): string => {
   const hours = Math.floor(second / 3600);
   const minutes = Math.floor((second - (hours * 3600)) / 60);
@@ -16,21 +17,26 @@ const timeToHHMMSS = (second: number): string => {
 }
 
 const Timer: React.FC<ITimerProps> = ({ isStartGame }) => {
+  const { message } = useAppSelector(state => state.map);
   const [time, setTime] = useState<number>(0);
 
   useEffect((): void => {
     if (isStartGame) {
-      setInterval(() => {
+      interval = setInterval(() => {
         setTime(prevState => prevState + 1);
       }, 1000);
     }
 
     if (!isStartGame) {
-      console.log('asasasas')
-      clearInterval(time);
-      setTime(0);
+      clearInterval(interval);
     }
   }, [isStartGame]);
+
+  useEffect(() => {
+    if (message === 'You lose') {
+      setTime(0);
+    }
+  }, [message]);
 
   return (
     <div className={styles.timer_block}>
