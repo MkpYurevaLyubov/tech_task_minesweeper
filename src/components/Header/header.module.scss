@@ -1,0 +1,42 @@
+.header_block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 505px;
+  background: #d1e5ee;
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: 2px solid #818ebb;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  box-sizing: border-box;
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #4c536e;
+    padding: 10px 0;
+
+    .icon_start {
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+
+      &:hover {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+
+  p {
+    color: #4c536e;
+    margin: 10px 0;
+  }
+}

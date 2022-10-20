@@ -1,0 +1,14 @@
+.timer_block {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+  }
+
+  p {
+    color: #4c536e;
+  }
+}

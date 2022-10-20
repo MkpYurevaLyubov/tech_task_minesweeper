@@ -1,0 +1,22 @@
+.modal {
+  h1 {
+    color: #4c536e;
+    text-align: center;
+  }
+
+  p {
+    color: #4c536e;
+  }
+
+  button {
+    background: #4c536e;
+
+    &:hover {
+      background: #7e88a5;
+    }
+  }
+
+  button:nth-child(1) {
+    margin-right: 15px;
+  }
+}
