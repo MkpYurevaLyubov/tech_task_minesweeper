@@ -29,7 +29,8 @@ const App: React.FC = () => {
 
   useEffect((): void => {
     if (message === 'You lose' || message === 'You win.') {
-      setOpenModal({ open: true, text: message });
+      const text = message === 'You lose' ? 'Вы проиграли' : 'Вы выиграли';
+      setOpenModal({ open: true, text: text });
       setStartGame(initialStopGame);
     }
   }, [message]);
