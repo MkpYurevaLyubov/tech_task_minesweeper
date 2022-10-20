@@ -9,7 +9,7 @@ const getText = (value: string, x: number, y: number, selectedArr: string[]): JS
     return <MoonIcon />
   }
 
-  const text = value === '□' ? '' : value;
+  const text = (value === '□' || value === '0') ? '' : value;
   return <p>{text}</p>
 };
 
