@@ -5,6 +5,7 @@ export interface ILevel {
 
 export interface IHeaderProps {
   isStartGame: boolean,
+  isStopTimer: boolean,
   onClickStartBtn: () => void,
   level: string,
   onChangeLevel: (value: string) => void,
@@ -36,9 +37,15 @@ export interface IModalWindowProps {
 
 export interface ITimerProps {
   isStartGame: boolean,
+  isStopTimer: boolean,
 }
 
 export interface IInitialOpenModal {
   open: boolean,
   text: string,
+}
+
+export interface IGame {
+  start: boolean,
+  stopTimer: boolean,
 }

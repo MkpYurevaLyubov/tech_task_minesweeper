@@ -11,6 +11,7 @@ const notificationText = 'Для старта игры нажмите  ▶';
 
 const Map: React.FC<IMapProps> = ({ value, isStartGame }) => {
   const { selectedArr } = useAppSelector(state => state.selectedCells);
+  const { map } = useAppSelector(state => state.map);
   const dispatch = useAppDispatch();
   const style = {
     gridTemplateColumns: `repeat(${value[0]?.length}, 1fr)`,
@@ -35,6 +36,10 @@ const Map: React.FC<IMapProps> = ({ value, isStartGame }) => {
 
     if (!isStartGame) {
       toast(notificationText);
+      return;
+    }
+
+    if (map[y][x] !== '□') {
       return;
     }
 
